@@ -395,6 +395,216 @@
                 </div>
             </div>
         </section>
+        <!-- SEZIONE ORDINI -->
+        <section id="sec-ordini" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>📑 Gestione Ordini</h2>
+                    <p>Crea e gestisci ordini di acquisto e vendita</p>
+                </div>
+            </div>
+            <div id="alertOrdini"></div>
+            <div class="card">
+                <div class="card-header"><h3>Nuovo Ordine</h3></div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Numero Ordine</label>
+                            <input type="text" id="ordineNumero" class="form-control" readonly style="background:var(--gray-100);">
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" id="ordineData" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Fornitore / Cliente *</label>
+                            <input type="text" id="ordineFornitore" class="form-control" placeholder="Ragione sociale">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo Ordine</label>
+                            <select id="ordineTipo" class="form-control">
+                                <option value="Acquisto">Ordine di Acquisto</option>
+                                <option value="Vendita">Ordine di Vendita</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h4 style="margin:20px 0 12px;font-size:14px;color:var(--gray-700);">Aggiungi Articoli all'Ordine</h4>
+                    <div class="form-grid" style="grid-template-columns:2fr 1fr auto;align-items:end;">
+                        <div class="form-group">
+                            <label>Articolo</label>
+                            <select id="ordineArticoloSel" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantità</label>
+                            <input type="number" id="ordineArticoloQta" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="aggiungiRigaOrdine()">+ Aggiungi</button>
+                        </div>
+                    </div>
+                    <div class="table-container" style="margin-top:12px;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Codice</th><th>Descrizione</th><th>U.M.</th>
+                                    <th class="text-right">Qtà</th><th class="text-right">Subtotale</th><th class="text-center">Rimuovi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordineRigheBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="totale-box" id="ordineTotale"></div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>Note Ordine</label>
+                        <textarea id="ordineNote" class="form-control" rows="2" placeholder="Note aggiuntive..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-outline" onclick="resetFormOrdine()">🔄 Reset</button>
+                        <button class="btn btn-success" onclick="creaOrdine()">📑 Crea Ordine</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:24px;">
+                <div class="card-header"><h3>Ordini Registrati</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Numero</th><th>Data</th><th>Fornitore/Cliente</th><th>Tipo</th>
+                                    <th class="text-center">Articoli</th><th class="text-right">Totale</th>
+                                    <th class="text-center">Stato</th><th class="text-center">Aggiorna</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordiniListBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- Modal Modifica Articolo -->
+    <div class="modal-overlay" id="modalModifica">
+        <div class="modal" style="max-width:640px;">
+            <div class="modal-header">
+                <h3>✏️ Modifica Articolo</h3>
+                <button class="modal-close" onclick="chiudiModalModifica()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="alertModifica"></div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Codice</label>
+                        <input type="text" id="editCodice" class="form-control" readonly style="background:var(--gray-100);">
+                    </div>
+                    <div class="form-group">
+                        <label>Descrizione *</label>
+                        <input type="text" id="editDescrizione" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select id="editCategoria" class="form-control">
+                            <option value="Elettronica">Elettronica</option>
+                            <option value="Ferramenta">Ferramenta</option>
+                            <option value="Abbigliamento">Abbigliamento</option>
+                            <option value="Alimentari">Alimentari</option>
+                            <option value="Cancelleria">Cancelleria</option>
+                            <option value="Altro">Altro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>U.M.</label>
+                        <select id="editUM" class="form-control">
+                            <option value="PZ">PZ</option>
+                            <option value="KG">KG</option>
+                            <option value="LT">LT</option>
+                            <option value="MT">MT</option>
+                            <option value="CF">CF</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Giacenza</label>
+                        <input type="number" id="editGiacenza" class="form-control" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Scorta Minima</label>
+                        <input type="number" id="editScortaMin" class="form-control" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Prezzo (€)</label>
+                        <input type="number" id="editPrezzo" class="form-control" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Posizione</label>
+                        <input type="text" id="editPosizione" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:12px;">
+                    <label>Note</label>
+                    <textarea id="editNote" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="chiudiModalModifica()">Annulla</button>
+                <button class="btn btn-primary" onclick="salvaModifica()">💾 Salva Modifiche</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Elimina Articolo -->
+    <div class="modal-overlay" id="modalElimina">
+        <div class="modal" style="max-width:480px;">
+            <div class="modal-header">
+                <h3>🗑️ Conferma Eliminazione</h3>
+                <button class="modal-close" onclick="chiudiModalElimina()">✕</button>
+            </div>
+            <div class="modal-body" style="text-align:center;">
+                <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+                <p style="font-size:16px;margin-bottom:20px;">Sei sicuro di voler eliminare questo articolo?</p>
+                <div style="background:var(--gray-50);padding:16px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);text-align:left;">
+                    <p><strong>Codice:</strong> <span id="eliminaCodice"></span></p>
+                    <p><strong>Descrizione:</strong> <span id="eliminaDescrizione"></span></p>
+                    <p><strong>Giacenza:</strong> <span id="eliminaGiacenza"></span></p>
+                </div>
+                <input type="hidden" id="eliminaCodiceHidden">
+                <p style="font-size:12px;color:var(--danger);margin-top:12px;">Questa azione è irreversibile!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="chiudiModalElimina()">Annulla</button>
+                <button class="btn btn-danger" onclick="confermaElimina()">🗑️ Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Preview DDT -->
+    <div class="modal-overlay" id="modalDDTPreview">
+        <div class="modal" style="max-width:800px;">
+            <div class="modal-header">
+                <h3>🚚 Anteprima DDT</h3>
+                <button class="modal-close" onclick="chiudiModalDDT()">✕</button>
+            </div>
+            <div class="modal-body" id="ddtPreviewBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="chiudiModalDDT()">Chiudi</button>
+                <button class="btn btn-primary" onclick="stampaDDT()">🖨️ Stampa DDT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="text-align:center;padding:24px;color:var(--gray-500);font-size:12px;border-top:1px solid var(--gray-200);margin-top:40px;">
+        <p>Gestione Magazzino — Sistema Didattico Professionale | <button style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;text-decoration:underline;" onclick="resetTuttoDati()">🗑️ Reset Dati</button></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
         <!-- SEZIONE ORDINI -->
         <section id="sec-ordini" class="section">
