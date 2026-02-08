@@ -50,7 +50,7 @@
     <!-- ===== MAIN ===== -->
     <main class="app-main">
 
-        <!-- SEZIONE INVENTARIO -->
+        <!-- ==================== SEZIONE INVENTARIO ==================== -->
         <section id="sec-inventario" class="section active">
             <div class="section-header">
                 <div>
@@ -58,6 +58,7 @@
                     <p>Visualizza e gestisci tutti gli articoli presenti in magazzino</p>
                 </div>
             </div>
+            <div id="alertInventario"></div>
             <div class="toolbar">
                 <div class="search-box">
                     <span class="search-icon">🔍</span>
@@ -93,29 +94,31 @@
             </div>
         </section>
 
-        <!-- SEZIONE CARICO -->
+        <!-- ==================== SEZIONE CARICO ==================== -->
         <section id="sec-carico" class="section">
             <div class="section-header">
                 <div>
                     <h2>📥 Carico Merce</h2>
-                    <p>Registra l'ingresso di materiale in magazzino</p>
+                    <p>Registra l'ingresso di nuova merce in magazzino</p>
                 </div>
             </div>
             <div id="alertCarico"></div>
             <div class="card">
-                <div class="card-header"><h3>Nuovo Carico</h3></div>
+                <div class="card-header"><h3>Registra Carico</h3></div>
                 <div class="card-body">
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Articolo *</label>
-                            <select id="caricoArticolo" class="form-control"></select>
+                            <select id="caricoArticolo" class="form-control">
+                                <option value="">-- Seleziona articolo --</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Quantità *</label>
                             <input type="number" id="caricoQta" class="form-control" value="1" min="1">
                         </div>
                         <div class="form-group">
-                            <label>Data</label>
+                            <label>Data *</label>
                             <input type="date" id="caricoData" class="form-control">
                         </div>
                         <div class="form-group">
@@ -150,29 +153,31 @@
             </div>
         </section>
 
-        <!-- SEZIONE SCARICO -->
+        <!-- ==================== SEZIONE SCARICO ==================== -->
         <section id="sec-scarico" class="section">
             <div class="section-header">
                 <div>
                     <h2>📤 Scarico Merce</h2>
-                    <p>Registra l'uscita di materiale dal magazzino</p>
+                    <p>Registra l'uscita di merce dal magazzino</p>
                 </div>
             </div>
             <div id="alertScarico"></div>
             <div class="card">
-                <div class="card-header"><h3>Nuovo Scarico</h3></div>
+                <div class="card-header"><h3>Registra Scarico</h3></div>
                 <div class="card-body">
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Articolo *</label>
-                            <select id="scaricoArticolo" class="form-control"></select>
+                            <select id="scaricoArticolo" class="form-control">
+                                <option value="">-- Seleziona articolo --</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Quantità *</label>
                             <input type="number" id="scaricoQta" class="form-control" value="1" min="1">
                         </div>
                         <div class="form-group">
-                            <label>Data</label>
+                            <label>Data *</label>
                             <input type="date" id="scaricoData" class="form-control">
                         </div>
                         <div class="form-group">
@@ -217,12 +222,12 @@
             </div>
         </section>
 
-        <!-- SEZIONE NUOVO ARTICOLO -->
+        <!-- ==================== SEZIONE NUOVO ARTICOLO ==================== -->
         <section id="sec-nuovo" class="section">
             <div class="section-header">
                 <div>
                     <h2>➕ Nuovo Articolo</h2>
-                    <p>Inserisci un nuovo articolo nell'anagrafica magazzino</p>
+                    <p>Aggiungi un nuovo articolo all'anagrafica di magazzino</p>
                 </div>
             </div>
             <div id="alertNuovo"></div>
@@ -231,12 +236,12 @@
                 <div class="card-body">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Codice *</label>
-                            <input type="text" id="nuovoCodice" class="form-control" readonly style="background:var(--gray-100);">
+                            <label>Codice Articolo</label>
+                            <input type="text" id="nuovoCodice" class="form-control" readonly style="background:var(--gray-100);font-weight:700;">
                         </div>
                         <div class="form-group">
                             <label>Descrizione *</label>
-                            <input type="text" id="nuovoDescrizione" class="form-control" placeholder="Nome articolo">
+                            <input type="text" id="nuovoDescrizione" class="form-control" placeholder="Nome dell'articolo">
                         </div>
                         <div class="form-group">
                             <label>Categoria *</label>
@@ -289,12 +294,12 @@
             </div>
         </section>
 
-        <!-- SEZIONE DDT -->
+        <!-- ==================== SEZIONE DDT ==================== -->
         <section id="sec-ddt" class="section">
             <div class="section-header">
                 <div>
                     <h2>🚚 Documenti di Trasporto</h2>
-                    <p>Emetti e gestisci DDT per la spedizione della merce</p>
+                    <p>Emetti DDT e gestisci le spedizioni in uscita</p>
                 </div>
             </div>
             <div id="alertDDT"></div>
@@ -304,10 +309,10 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Numero DDT</label>
-                            <input type="text" id="ddtNumero" class="form-control" readonly style="background:var(--gray-100);">
+                            <input type="text" id="ddtNumero" class="form-control" readonly style="background:var(--gray-100);font-weight:700;">
                         </div>
                         <div class="form-group">
-                            <label>Data</label>
+                            <label>Data *</label>
                             <input type="date" id="ddtData" class="form-control">
                         </div>
                         <div class="form-group">
@@ -315,7 +320,7 @@
                             <input type="text" id="ddtDestinatario" class="form-control" placeholder="Ragione sociale">
                         </div>
                         <div class="form-group">
-                            <label>Indirizzo Destinatario</label>
+                            <label>Indirizzo</label>
                             <input type="text" id="ddtIndirizzo" class="form-control" placeholder="Indirizzo completo">
                         </div>
                         <div class="form-group">
@@ -356,7 +361,7 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Codice</th><th>Descrizione</th><th>U.M.</th>
+                                    <th>Codice</th><th>Descrizione</th><th class="text-center">U.M.</th>
                                     <th class="text-right">Qtà</th><th class="text-center">Rimuovi</th>
                                 </tr>
                             </thead>
@@ -381,21 +386,19 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>N° DDT</th><th>Data</th><th>Destinatario</th>
-                                    <th class="text-center">Articoli</th><th>Causale</th><th class="text-center">Azioni</th>
+                                    <th>Numero</th><th>Data</th><th>Destinatario</th><th>Causale</th>
+                                    <th class="text-center">Articoli</th><th class="text-right">Valore</th>
+                                    <th class="text-center">Azioni</th>
                                 </tr>
                             </thead>
                             <tbody id="ddtListBody"></tbody>
                         </table>
                     </div>
-                    <div id="emptyDDT" class="empty-state">
-                        <div class="empty-icon">🚚</div>
-                        <p>Nessun DDT emesso</p>
-                    </div>
                 </div>
             </div>
         </section>
-        <!-- SEZIONE ORDINI -->
+
+        <!-- ==================== SEZIONE ORDINI ==================== -->
         <section id="sec-ordini" class="section">
             <div class="section-header">
                 <div>
@@ -410,7 +413,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Numero Ordine</label>
-                            <input type="text" id="ordineNumero" class="form-control" readonly style="background:var(--gray-100);">
+                            <input type="text" id="ordineNumero" class="form-control" readonly style="background:var(--gray-100);font-weight:700;">
                         </div>
                         <div class="form-group">
                             <label>Data</label>
@@ -567,7 +570,7 @@
             <div class="modal-body" style="text-align:center;">
                 <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
                 <p style="font-size:16px;margin-bottom:20px;">Sei sicuro di voler eliminare questo articolo?</p>
-                <div style="background:var(--gray-50);padding:16px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);text-align:left;">
+                <div style="background:var(--gray-50);padding:16px;border-radius:8px;border:1px solid var(--gray-200);text-align:left;">
                     <p><strong>Codice:</strong> <span id="eliminaCodice"></span></p>
                     <p><strong>Descrizione:</strong> <span id="eliminaDescrizione"></span></p>
                     <p><strong>Giacenza:</strong> <span id="eliminaGiacenza"></span></p>
@@ -601,157 +604,6 @@
     <footer style="text-align:center;padding:24px;color:var(--gray-500);font-size:12px;border-top:1px solid var(--gray-200);margin-top:40px;">
         <p>Gestione Magazzino — Sistema Didattico Professionale | <button style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;text-decoration:underline;" onclick="resetTuttoDati()">🗑️ Reset Dati</button></p>
     </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
-
-        <!-- SEZIONE ORDINI -->
-        <section id="sec-ordini" class="section">
-            <div class="section-header">
-                <div>
-                    <h2>📑 Ordini Fornitore</h2>
-                    <p>Crea e gestisci ordini di acquisto ai fornitori</p>
-                </div>
-            </div>
-            <div id="alertOrdine"></div>
-            <div class="card">
-                <div class="card-header"><h3>Nuovo Ordine</h3></div>
-                <div class="card-body">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Numero Ordine</label>
-                            <input type="text" id="ordineNumero" class="form-control" readonly style="background:var(--gray-100);">
-                        </div>
-                        <div class="form-group">
-                            <label>Data</label>
-                            <input type="date" id="ordineData" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Fornitore *</label>
-                            <input type="text" id="ordineFornitore" class="form-control" placeholder="Ragione sociale fornitore">
-                        </div>
-                        <div class="form-group">
-                            <label>Consegna Prevista</label>
-                            <input type="date" id="ordineConsegna" class="form-control">
-                        </div>
-                    </div>
-
-                    <h4 style="margin:20px 0 12px;font-size:14px;color:var(--gray-700);">Aggiungi Articoli all'Ordine</h4>
-                    <div class="form-grid" style="grid-template-columns:2fr 1fr 1fr auto;align-items:end;">
-                        <div class="form-group">
-                            <label>Articolo</label>
-                            <select id="ordineArticoloSel" class="form-control"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Quantità</label>
-                            <input type="number" id="ordineArticoloQta" class="form-control" value="1" min="1">
-                        </div>
-                        <div class="form-group">
-                            <label>Prezzo Unit. (€)</label>
-                            <input type="number" id="ordineArticoloPrezzo" class="form-control" value="0" min="0" step="0.01">
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary" onclick="aggiungiRigaOrdine()">+ Aggiungi</button>
-                        </div>
-                    </div>
-                    <div class="table-container" style="margin-top:12px;">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Codice</th><th>Descrizione</th>
-                                    <th class="text-right">Qtà</th><th class="text-right">Prezzo</th>
-                                    <th class="text-right">Totale</th><th class="text-center">Rimuovi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ordineRigheBody"></tbody>
-                        </table>
-                    </div>
-                    <div id="ordineTotale" class="totale-box">Totale Ordine: <strong>€ 0,00</strong></div>
-                    <div class="form-group" style="margin-top:12px;">
-                        <label>Note Ordine</label>
-                        <textarea id="ordineNote" class="form-control" rows="2" placeholder="Note..."></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-outline" onclick="resetFormOrdine()">🔄 Reset</button>
-                        <button class="btn btn-success" onclick="emettiOrdine()">📑 Emetti Ordine</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top:24px;">
-                <div class="card-header"><h3>Ordini Emessi</h3></div>
-                <div class="card-body" style="padding:0;">
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>N° Ordine</th><th>Data</th><th>Fornitore</th>
-                                    <th class="text-right">Articoli</th><th class="text-right">Totale</th>
-                                    <th class="text-center">Stato</th><th class="text-center">Azioni</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ordiniListBody"></tbody>
-                        </table>
-                    </div>
-                    <div id="emptyOrdini" class="empty-state">
-                        <div class="empty-icon">📑</div>
-                        <p>Nessun ordine emesso</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ===== MODALI ===== -->
-
-    <!-- Modal Elimina -->
-    <div class="modal-overlay" id="modalElimina">
-        <div class="modal" style="max-width:440px;">
-            <div class="modal-header" style="background:var(--danger-light);">
-                <h3 style="color:var(--danger);">⚠️ Conferma Eliminazione</h3>
-                <button class="modal-close" onclick="chiudiModalElimina()">✕</button>
-            </div>
-            <div class="modal-body" style="text-align:center;padding:30px;">
-                <p>Vuoi eliminare l'articolo<br><strong id="eliminaArticoloNome"></strong>?</p>
-                <p style="font-size:13px;color:var(--gray-500);margin-top:8px;">Questa azione è irreversibile.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="chiudiModalElimina()">Annulla</button>
-                <button class="btn btn-danger" id="btnConfermaElimina">🗑️ Elimina</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Visualizza DDT -->
-    <div class="modal-overlay" id="modalDDT">
-        <div class="modal" style="max-width:750px;">
-            <div class="modal-header">
-                <h3>📄 Anteprima DDT</h3>
-                <button class="modal-close" onclick="chiudiModalDDT()">✕</button>
-            </div>
-            <div class="modal-body" id="ddtPrintArea"></div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="chiudiModalDDT()">Chiudi</button>
-                <button class="btn btn-primary" onclick="stampaDDT()">🖨️ Stampa</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Visualizza Ordine -->
-    <div class="modal-overlay" id="modalOrdine">
-        <div class="modal" style="max-width:650px;">
-            <div class="modal-header">
-                <h3>📑 Dettaglio Ordine</h3>
-                <button class="modal-close" onclick="chiudiModalOrdine()">✕</button>
-            </div>
-            <div class="modal-body" id="modalOrdineBody"></div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="chiudiModalOrdine()">Chiudi</button>
-            </div>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
