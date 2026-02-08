@@ -3,1224 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestione Magazzino - Sistema Professionale</title>
-    <style>
-        /* ===== RESET & BASE ===== */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --primary-light: #e8f0fe;
-            --success: #0d904f;
-            --success-light: #e6f4ea;
-            --danger: #d93025;
-            --danger-light: #fce8e6;
-            --warning: #e37400;
-            --warning-light: #fef7e0;
-            --gray-50: #f8f9fa;
-            --gray-100: #f1f3f4;
-            --gray-200: #e8eaed;
-            --gray-300: #dadce0;
-            --gray-400: #bdc1c6;
-            --gray-500: #9aa0a6;
-            --gray-600: #80868b;
-            --gray-700: #5f6368;
-            --gray-800: #3c4043;
-            --gray-900: #202124;
-            --white: #ffffff;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-xl: 0 8px 32px rgba(0,0,0,0.16);
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-            --radius-xl: 20px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
-            background: var(--gray-100);
-            color: var(--gray-900);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* ===== HEADER ===== */
-        .app-header {
-            background: linear-gradient(135deg, #1a237e 0%, #1a73e8 50%, #0d904f 100%);
-            color: var(--white);
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 32px;
-        }
-
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .header-brand .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: rgba(255,255,255,0.2);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            backdrop-filter: blur(10px);
-        }
-
-        .header-brand h1 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-
-        .header-brand .subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 24px;
-        }
-
-        .header-stat {
-            text-align: center;
-            padding: 6px 16px;
-            background: rgba(255,255,255,0.12);
-            border-radius: var(--radius-md);
-            backdrop-filter: blur(10px);
-        }
-
-        .header-stat .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .header-stat .stat-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            opacity: 0.85;
-        }
-
-        /* ===== NAVIGATION TABS ===== */
-        .nav-tabs {
-            display: flex;
-            background: rgba(0,0,0,0.15);
-            padding: 0 24px;
-            gap: 2px;
-            overflow-x: auto;
-        }
-
-        .nav-tab {
-            padding: 13px 22px;
-            background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.75);
-            font-size: 13.5px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-        }
-
-        .nav-tab:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--white);
-        }
-
-        .nav-tab.active {
-            background: var(--gray-100);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .nav-tab .tab-icon {
-            font-size: 16px;
-        }
-
-        .nav-tab .badge {
-            background: rgba(255,255,255,0.25);
-            color: var(--white);
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        .nav-tab.active .badge {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 28px 24px;
-        }
-
-        /* ===== SECTIONS ===== */
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== CARDS ===== */
-        .card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            border: 1px solid var(--gray-200);
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .card-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--gray-900);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-header h2 .icon {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .card-body {
-            padding: 24px;
-        }
-
-        /* ===== TOOLBAR ===== */
-        .toolbar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box input {
-            padding: 9px 14px 9px 38px;
-            border: 1.5px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            font-size: 13.5px;
-            width: 260px;
-            transition: var(--transition);
-            background: var(--gray-50);
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
-            background: var(--white);
-        }
-
-        .search-box .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-500);
-            font-size: 14px;
-        }
-
-        /* ===== BUTTONS ===== */
-        .btn {
-            padding: 9px 20px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 13.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: var(--white);
-        }
-
-        .btn-success:hover {
-            background: #0b7b43;
-            box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: var(--white);
-        }
-
-        .btn-danger:hover {
-            background: #b9271d;
-            box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: var(--white);
-        }
-
-        .btn-warning:hover {
-            background: #c66400;
-            box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
-        }
-
-        .btn-outline {
-            background: var(--white);
-            color: var(--gray-700);
-            border: 1.5px solid var(--gray-300);
-        }
-
-        .btn-outline:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-400);
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
-        .btn-icon {
-            width: 34px;
-            height: 34px;
-            padding: 0;
-            justify-content: center;
-            border-radius: var(--radius-sm);
-        }
-
-        /* ===== TABLE ===== */
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        thead th {
-            background: var(--gray-50);
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--gray-600);
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            border-bottom: 2px solid var(--gray-200);
-            position: sticky;
-            top: 0;
-            white-space: nowrap;
-        }
-
-        tbody td {
-            padding: 13px 16px;
-            border-bottom: 1px solid var(--gray-100);
-            font-size: 13.5px;
-            vertical-align: middle;
-        }
-
-        tbody tr {
-            transition: var(--transition);
-        }
-
-        tbody tr:hover {
-            background: var(--primary-light);
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .stock-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .stock-ok {
-            background: var(--success-light);
-            color: var(--success);
-        }
-
-        .stock-low {
-            background: var(--warning-light);
-            color: var(--warning);
-        }
-
-        .stock-critical {
-            background: var(--danger-light);
-            color: var(--danger);
-        }
-
-        .actions-cell {
-            display: flex;
-            gap: 5px;
-        }
-
-        /* ===== FORMS ===== */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--gray-700);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group label .required {
-            color: var(--danger);
-        }
-
-        .form-control {
-            padding: 10px 14px;
-            border: 1.5px solid var(--gray-300);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-family: inherit;
-            transition: var(--transition);
-            background: var(--white);
-            color: var(--gray-900);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
-        }
-
-        select.form-control {
-            cursor: pointer;
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            padding-top: 20px;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .form-span-full {
-            grid-column: 1 / -1;
-        }
-
-        /* ===== ALERTS ===== */
-        .alert {
-            padding: 14px 18px;
-            border-radius: var(--radius-sm);
-            font-size: 13.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-            border-left: 4px solid;
-        }
-
-        .alert-success {
-            background: var(--success-light);
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .alert-danger {
-            background: var(--danger-light);
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-
-        .alert-warning {
-            background: var(--warning-light);
-            border-color: var(--warning);
-            color: var(--warning);
-        }
-
-        .alert-info {
-            background: var(--primary-light);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* ===== MODAL ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backdrop-filter: blur(3px);
-        }
-
-        .modal-overlay.open {
-            display: flex;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .modal {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-xl);
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-header h3 {
-            font-size: 17px;
-            font-weight: 700;
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: var(--gray-100);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: var(--gray-600);
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            background: var(--danger-light);
-            color: var(--danger);
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        /* ===== DDT PRINT ===== */
-        .ddt-preview {
-            background: var(--white);
-            border: 2px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .ddt-header-doc {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 3px solid var(--gray-900);
-            padding-bottom: 20px;
-            margin-bottom: 24px;
-        }
-
-        .ddt-company h3 {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .ddt-company p {
-            font-size: 12px;
-            color: var(--gray-600);
-            margin-top: 4px;
-        }
-
-        .ddt-title {
-            text-align: right;
-        }
-
-        .ddt-title h2 {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--gray-900);
-        }
-
-        .ddt-title p {
-            font-size: 13px;
-            color: var(--gray-600);
-        }
-
-        .ddt-parties {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .ddt-party {
-            padding: 16px;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-sm);
-        }
-
-        .ddt-party h4 {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--gray-500);
-            margin-bottom: 8px;
-        }
-
-        .ddt-party p {
-            font-size: 13px;
-            color: var(--gray-800);
-            line-height: 1.7;
-        }
-
-        .ddt-table th {
-            background: var(--gray-900);
-            color: var(--white);
-            padding: 10px 14px;
-            font-size: 11px;
-        }
-
-        .ddt-table td {
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--gray-200);
-            font-size: 13px;
-        }
-
-        .ddt-footer {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .ddt-signature {
-            border-top: 2px solid var(--gray-300);
-            padding-top: 12px;
-            text-align: center;
-        }
-
-        .ddt-signature p {
-            font-size: 11px;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ===== ORDER STATUS ===== */
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .status-pending {
-            background: var(--warning-light);
-            color: var(--warning);
-        }
-
-        .status-confirmed {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .status-shipped {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .status-delivered {
-            background: var(--success-light);
-            color: var(--success);
-        }
-
-        .status-cancelled {
-            background: var(--danger-light);
-            color: var(--danger);
-        }
-
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray-500);
-        }
-
-        .empty-state .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 17px;
-            color: var(--gray-700);
-            margin-bottom: 6px;
-        }
-
-        .empty-state p {
-            font-size: 13.5px;
-        }
-
-        /* ===== TOAST NOTIFICATIONS ===== */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 3000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .toast {
-            padding: 14px 20px;
-            border-radius: var(--radius-md);
-            color: var(--white);
-            font-size: 13.5px;
-            font-weight: 500;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 300px;
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-        }
-
-        .toast-success { background: var(--success); }
-        .toast-danger { background: var(--danger); }
-        .toast-warning { background: var(--warning); }
-        .toast-info { background: var(--primary); }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateX(100%); }
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .header-top {
-                flex-direction: column;
-                gap: 12px;
-                padding: 14px 16px;
-            }
-
-            .header-stats {
-                gap: 10px;
-            }
-
-            .nav-tabs {
-                padding: 0 8px;
-            }
-
-            .nav-tab {
-                padding: 11px 14px;
-                font-size: 12.5px;
-            }
-
-            .nav-tab .tab-text {
-                display: none;
-            }
-
-            .main-content {
-                padding: 16px 12px;
-            }
-
-            .card-header {
-                padding: 16px;
-            }
-
-            .card-body {
-                padding: 16px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ddt-preview {
-                padding: 20px;
-            }
-
-            .ddt-parties {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== PRINT ===== */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .ddt-preview, .ddt-preview * {
-                visibility: visible;
-            }
-            .ddt-preview {
-                position: absolute;
-                left: 0;
-                top: 0;
-                border: none;
-                box-shadow: none;
-                width: 100%;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
-
-        /* ===== UTILITY ===== */
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        .font-mono { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
-        .text-muted { color: var(--gray-500); }
-        .mt-16 { margin-top: 16px; }
-        .mb-16 { margin-bottom: 16px; }
-        .gap-row { display: flex; flex-direction: column; gap: 20px; }
-
-        /* ===== DDT LIST CARDS ===== */
-        .ddt-list-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
-        }
-
-        .ddt-card {
-            border: 1.5px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            padding: 18px;
-            transition: var(--transition);
-            background: var(--white);
-        }
-
-        .ddt-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
-        }
-
-        .ddt-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .ddt-card-number {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--primary);
-        }
-
-        .ddt-card-date {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .ddt-card-dest {
-            font-size: 13px;
-            color: var(--gray-700);
-            margin-bottom: 10px;
-        }
-
-        .ddt-card-items {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 12px;
-        }
-
-        .ddt-card-actions {
-            display: flex;
-            gap: 8px;
-        }
-    </style>
+    <title>Gestione Magazzino — Sistema Professionale</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- TOAST CONTAINER -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <header class="app-header">
         <div class="header-top">
             <div class="header-brand">
-                <div class="logo-icon">🏭</div>
+                <div class="brand-icon">📦</div>
                 <div>
                     <h1>Gestione Magazzino</h1>
-                    <div class="subtitle">Sistema di Gestione Inventario</div>
+                    <p class="brand-sub">Sistema di Gestione Inventario Professionale</p>
                 </div>
             </div>
             <div class="header-stats">
-                <div class="header-stat">
-                    <div class="stat-value" id="statArticoli">0</div>
-                    <div class="stat-label">Articoli</div>
+                <div class="stat-card">
+                    <span class="stat-value" id="statArticoli">0</span>
+                    <span class="stat-label">Articoli</span>
                 </div>
-                <div class="header-stat">
-                    <div class="stat-value" id="statGiacenza">0</div>
-                    <div class="stat-label">Pezzi Totali</div>
+                <div class="stat-card">
+                    <span class="stat-value" id="statGiacenza">0</span>
+                    <span class="stat-label">Giacenza Tot.</span>
                 </div>
-                <div class="header-stat">
-                    <div class="stat-value" id="statValore">€ 0</div>
-                    <div class="stat-label">Valore Magazzino</div>
+                <div class="stat-card stat-alert">
+                    <span class="stat-value" id="statAllarmi">0</span>
+                    <span class="stat-label">Allarmi Scorta</span>
                 </div>
-                <div class="header-stat">
-                    <div class="stat-value" id="statAlert">0</div>
-                    <div class="stat-label">Alert</div>
+                <div class="stat-card">
+                    <span class="stat-value" id="statValore">€ 0</span>
+                    <span class="stat-label">Valore Magazzino</span>
                 </div>
             </div>
         </div>
-        <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('inventario')">
-                <span class="tab-icon">📋</span>
-                <span class="tab-text">Inventario</span>
-            </button>
-            <button class="nav-tab" onclick="showSection('carico')">
-                <span class="tab-icon">➕</span>
-                <span class="tab-text">Carico</span>
-            </button>
-            <button class="nav-tab" onclick="showSection('scarico')">
-                <span class="tab-icon">➖</span>
-                <span class="tab-text">Scarico</span>
-            </button>
-            <button class="nav-tab" onclick="showSection('nuovoArticolo')">
-                <span class="tab-icon">✨</span>
-                <span class="tab-text">Nuovo Articolo</span>
-            </button>
-            <button class="nav-tab" onclick="showSection('ddt')">
-                <span class="tab-icon">📄</span>
-                <span class="tab-text">DDT</span>
-            </button>
-            <button class="nav-tab" onclick="showSection('ordini')">
-                <span class="tab-icon">🚚</span>
-                <span class="tab-text">Ordini</span>
-            </button>
+        <nav class="header-nav">
+            <button class="nav-tab active" data-tab="inventario" onclick="switchTab('inventario')">📋 Inventario</button>
+            <button class="nav-tab" data-tab="carico" onclick="switchTab('carico')">📥 Carico</button>
+            <button class="nav-tab" data-tab="scarico" onclick="switchTab('scarico')">📤 Scarico</button>
+            <button class="nav-tab" data-tab="nuovo" onclick="switchTab('nuovo')">➕ Nuovo Articolo</button>
+            <button class="nav-tab" data-tab="ddt" onclick="switchTab('ddt')">🚚 DDT</button>
+            <button class="nav-tab" data-tab="ordini" onclick="switchTab('ordini')">📑 Ordini</button>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <!-- ===== MAIN ===== -->
+    <main class="app-main">
 
-        <!-- =================== INVENTARIO =================== -->
-        <div class="section active" id="sec-inventario">
-            <div class="card">
-                <div class="card-header">
-                    <h2>
-                        <span class="icon" style="background:var(--primary-light);color:var(--primary);">📋</span>
-                        Inventario Magazzino
-                    </h2>
-                    <div class="toolbar">
-                        <div class="search-box">
-                            <span class="search-icon">🔍</span>
-                            <input type="text" id="searchInventario" placeholder="Cerca articolo..." oninput="renderInventario()">
-                        </div>
-                        <button class="btn btn-primary btn-sm" onclick="showSection('nuovoArticolo')">✨ Nuovo Articolo</button>
-                    </div>
-                </div>
-                <div class="card-body" style="padding:0;">
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Codice</th>
-                                    <th>Descrizione</th>
-                                    <th>Categoria</th>
-                                    <th class="text-right">Giacenza</th>
-                                    <th class="text-right">Scorta Min.</th>
-                                    <th class="text-right">Prezzo Unit.</th>
-                                    <th class="text-right">Valore</th>
-                                    <th class="text-center">Stato</th>
-                                    <th class="text-center">Azioni</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventarioBody"></tbody>
-                        </table>
-                    </div>
-                    <div class="empty-state" id="emptyInventario" style="display:none;">
-                        <div class="empty-icon">📦</div>
-                        <h3>Magazzino vuoto</h3>
-                        <p>Aggiungi il primo articolo per iniziare</p>
-                    </div>
+        <!-- SEZIONE INVENTARIO -->
+        <section id="sec-inventario" class="section active">
+            <div class="section-header">
+                <div>
+                    <h2>📋 Inventario Articoli</h2>
+                    <p>Visualizza e gestisci tutti gli articoli presenti in magazzino</p>
                 </div>
             </div>
-        </div>
-
-        <!-- =================== CARICO =================== -->
-        <div class="section" id="sec-carico">
-            <div class="card">
-                <div class="card-header">
-                    <h2>
-                        <span class="icon" style="background:var(--success-light);color:var(--success);">➕</span>
-                        Carico Merci
-                    </h2>
+            <div class="toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInventario" placeholder="Cerca per codice, descrizione, posizione..." oninput="filtraInventario()">
                 </div>
+                <select id="filterCategoria" class="form-control" onchange="filtraInventario()" style="width:200px;">
+                    <option value="">Tutte le categorie</option>
+                    <option value="Elettronica">Elettronica</option>
+                    <option value="Ferramenta">Ferramenta</option>
+                    <option value="Abbigliamento">Abbigliamento</option>
+                    <option value="Alimentari">Alimentari</option>
+                    <option value="Cancelleria">Cancelleria</option>
+                    <option value="Altro">Altro</option>
+                </select>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Codice</th>
+                            <th>Descrizione</th>
+                            <th>Categoria</th>
+                            <th class="text-center">U.M.</th>
+                            <th class="text-right">Giacenza</th>
+                            <th class="text-center">Stato</th>
+                            <th class="text-right">Prezzo</th>
+                            <th>Posizione</th>
+                            <th class="text-center">Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventarioBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEZIONE CARICO -->
+        <section id="sec-carico" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>📥 Carico Merce</h2>
+                    <p>Registra l'ingresso di materiale in magazzino</p>
+                </div>
+            </div>
+            <div id="alertCarico"></div>
+            <div class="card">
+                <div class="card-header"><h3>Nuovo Carico</h3></div>
                 <div class="card-body">
-                    <div id="alertCarico"></div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Articolo <span class="required">*</span></label>
-                            <select class="form-control" id="caricoArticolo">
-                                <option value="">-- Seleziona articolo --</option>
-                            </select>
+                            <label>Articolo *</label>
+                            <select id="caricoArticolo" class="form-control"></select>
                         </div>
                         <div class="form-group">
-                            <label>Quantità <span class="required">*</span></label>
-                            <input type="number" class="form-control" id="caricoQta" min="1" value="1" placeholder="Quantità">
+                            <label>Quantità *</label>
+                            <input type="number" id="caricoQta" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" id="caricoData" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Fornitore</label>
-                            <input type="text" class="form-control" id="caricoFornitore" placeholder="Nome fornitore">
+                            <input type="text" id="caricoFornitore" class="form-control" placeholder="Nome fornitore">
                         </div>
                         <div class="form-group">
-                            <label>Riferimento Documento</label>
-                            <input type="text" class="form-control" id="caricoRiferimento" placeholder="Es. Fattura n. 123">
-                        </div>
-                        <div class="form-group form-span-full">
-                            <label>Note</label>
-                            <textarea class="form-control" id="caricoNote" placeholder="Eventuali note aggiuntive..."></textarea>
+                            <label>N° Documento</label>
+                            <input type="text" id="caricoDocumento" class="form-control" placeholder="DDT / Fattura">
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button class="btn btn-success" onclick="eseguiCarico()">✅ Registra Carico</button>
-                        <button class="btn btn-outline" onclick="resetFormCarico()">🔄 Reset</button>
-                    </div>
-
-                    <div class="mt-16">
-                        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">📜 Ultimi Movimenti di Carico</h3>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Data/Ora</th>
-                                        <th>Articolo</th>
-                                        <th class="text-right">Qtà</th>
-                                        <th>Fornitore</th>
-                                        <th>Riferimento</th>
-                                        <th>Note</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="logCaricoBody"></tbody>
-                            </table>
-                        </div>
+                        <button class="btn btn-success" onclick="registraCarico()">📥 Registra Carico</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- =================== SCARICO =================== -->
-        <div class="section" id="sec-scarico">
-            <div class="card">
-                <div class="card-header">
-                    <h2>
-                        <span class="icon" style="background:var(--danger-light);color:var(--danger);">➖</span>
-                        Scarico Merci
-                    </h2>
+            <div class="card" style="margin-top:24px;">
+                <div class="card-header"><h3>Storico Carichi</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th><th>Ora</th><th>Codice</th><th>Descrizione</th>
+                                    <th class="text-right">Qtà</th><th>Fornitore</th><th>Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="caricoBody"></tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE SCARICO -->
+        <section id="sec-scarico" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>📤 Scarico Merce</h2>
+                    <p>Registra l'uscita di materiale dal magazzino</p>
+                </div>
+            </div>
+            <div id="alertScarico"></div>
+            <div class="card">
+                <div class="card-header"><h3>Nuovo Scarico</h3></div>
                 <div class="card-body">
-                    <div id="alertScarico"></div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Articolo <span class="required">*</span></label>
-                            <select class="form-control" id="scaricoArticolo" onchange="aggiornaGiacenzaScarico()">
-                                <option value="">-- Seleziona articolo --</option>
+                            <label>Articolo *</label>
+                            <select id="scaricoArticolo" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantità *</label>
+                            <input type="number" id="scaricoQta" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" id="scaricoData" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Causale</label>
+                            <select id="scaricoCausale" class="form-control">
+                                <option value="Vendita">Vendita</option>
+                                <option value="Reso a fornitore">Reso a fornitore</option>
+                                <option value="Uso interno">Uso interno</option>
+                                <option value="Danneggiato">Danneggiato</option>
+                                <option value="Altro">Altro</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Quantità <span class="required">*</span></label>
-                            <input type="number" class="form-control" id="scaricoQta" min="1" value="1" placeholder="Quantità">
+                            <label>Destinatario / Cliente</label>
+                            <input type="text" id="scaricoDestinatario" class="form-control" placeholder="Nome destinatario">
                         </div>
                         <div class="form-group">
-                            <label>Giacenza Attuale</label>
-                            <input type="text" class="form-control" id="scaricoGiacenza" readonly style="background:var(--gray-100);" value="-">
-                        </div>
-                        <div class="form-group">
-                            <label>Causale <span class="required">*</span></label>
-                            <select class="form-control" id="scaricoCausale">
-                                <option value="vendita">Vendita</option>
-                                <option value="reso">Reso a fornitore</option>
-                                <option value="difettoso">Merce difettosa</option>
-                                <option value="trasferimento">Trasferimento</option>
-                                <option value="altro">Altro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Destinatario</label>
-                            <input type="text" class="form-control" id="scaricoDestinatario" placeholder="Nome destinatario">
-                        </div>
-                        <div class="form-group">
-                            <label>Riferimento Documento</label>
-                            <input type="text" class="form-control" id="scaricoRiferimento" placeholder="Es. Ordine n. 456">
-                        </div>
-                        <div class="form-group form-span-full">
-                            <label>Note</label>
-                            <textarea class="form-control" id="scaricoNote" placeholder="Eventuali note aggiuntive..."></textarea>
+                            <label>N° Documento</label>
+                            <input type="text" id="scaricoDocumento" class="form-control" placeholder="DDT / Fattura">
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button class="btn btn-danger" onclick="eseguiScarico()">📤 Registra Scarico</button>
-                        <button class="btn btn-outline" onclick="resetFormScarico()">🔄 Reset</button>
-                    </div>
-
-                    <div class="mt-16">
-                        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">📜 Ultimi Movimenti di Scarico</h3>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Data/Ora</th>
-                                        <th>Articolo</th>
-                                        <th class="text-right">Qtà</th>
-                                        <th>Causale</th>
-                                        <th>Destinatario</th>
-                                        <th>Riferimento</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="logScaricoBody"></tbody>
-                            </table>
-                        </div>
+                        <button class="btn btn-warning" onclick="registraScarico()">📤 Registra Scarico</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- =================== NUOVO ARTICOLO =================== -->
-        <div class="section" id="sec-nuovoArticolo">
-            <div class="card">
-                <div class="card-header">
-                    <h2>
-                        <span class="icon" style="background:var(--warning-light);color:var(--warning);">✨</span>
-                        Nuovo Articolo
-                    </h2>
+            <div class="card" style="margin-top:24px;">
+                <div class="card-header"><h3>Storico Scarichi</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th><th>Ora</th><th>Codice</th><th>Descrizione</th>
+                                    <th class="text-right">Qtà</th><th>Causale</th><th>Destinatario</th><th>Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scaricoBody"></tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE NUOVO ARTICOLO -->
+        <section id="sec-nuovo" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>➕ Nuovo Articolo</h2>
+                    <p>Inserisci un nuovo articolo nell'anagrafica magazzino</p>
+                </div>
+            </div>
+            <div id="alertNuovo"></div>
+            <div class="card">
+                <div class="card-header"><h3>Dati Articolo</h3></div>
                 <div class="card-body">
-                    <div id="alertNuovo"></div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Codice Articolo <span class="required">*</span></label>
-                            <input type="text" class="form-control font-mono" id="nuovoCodice" placeholder="Es. ART-001" style="text-transform:uppercase;">
+                            <label>Codice *</label>
+                            <input type="text" id="nuovoCodice" class="form-control" readonly style="background:var(--gray-100);">
                         </div>
                         <div class="form-group">
-                            <label>Descrizione <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="nuovoDescrizione" placeholder="Descrizione articolo">
+                            <label>Descrizione *</label>
+                            <input type="text" id="nuovoDescrizione" class="form-control" placeholder="Nome articolo">
                         </div>
                         <div class="form-group">
-                            <label>Categoria <span class="required">*</span></label>
-                            <select class="form-control" id="nuovoCategoria">
+                            <label>Categoria *</label>
+                            <select id="nuovoCategoria" class="form-control">
                                 <option value="">-- Seleziona --</option>
                                 <option value="Elettronica">Elettronica</option>
                                 <option value="Ferramenta">Ferramenta</option>
@@ -1231,310 +251,260 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Unità di Misura</label>
-                            <select class="form-control" id="nuovoUM">
+                            <label>Unità di Misura *</label>
+                            <select id="nuovoUM" class="form-control">
                                 <option value="PZ">PZ - Pezzi</option>
-                                <option value="KG">KG - Kilogrammi</option>
+                                <option value="KG">KG - Chilogrammi</option>
                                 <option value="LT">LT - Litri</option>
                                 <option value="MT">MT - Metri</option>
-                                <option value="CF">CF - Confezioni</option>
+                                <option value="CF">CF - Confezione</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Giacenza Iniziale</label>
-                            <input type="number" class="form-control" id="nuovoGiacenza" min="0" value="0" placeholder="0">
+                            <input type="number" id="nuovoGiacenza" class="form-control" value="0" min="0">
                         </div>
                         <div class="form-group">
                             <label>Scorta Minima</label>
-                            <input type="number" class="form-control" id="nuovoScortaMin" min="0" value="5" placeholder="5">
+                            <input type="number" id="nuovoScortaMin" class="form-control" value="5" min="0">
                         </div>
                         <div class="form-group">
-                            <label>Prezzo Unitario (€) <span class="required">*</span></label>
-                            <input type="number" class="form-control" id="nuovoPrezzo" min="0" step="0.01" value="0.00" placeholder="0.00">
+                            <label>Prezzo Unitario (€)</label>
+                            <input type="number" id="nuovoPrezzo" class="form-control" value="0" min="0" step="0.01">
                         </div>
                         <div class="form-group">
-                            <label>Posizione Magazzino</label>
-                            <input type="text" class="form-control" id="nuovoPosizione" placeholder="Es. Scaffale A-3">
+                            <label>Posizione</label>
+                            <input type="text" id="nuovoPosizione" class="form-control" placeholder="Es: Scaffale A-1">
                         </div>
-                        <div class="form-group form-span-full">
-                            <label>Note</label>
-                            <textarea class="form-control" id="nuovoNote" placeholder="Informazioni aggiuntive sull'articolo..."></textarea>
-                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>Note</label>
+                        <textarea id="nuovoNote" class="form-control" rows="2" placeholder="Note aggiuntive..."></textarea>
                     </div>
                     <div class="form-actions">
-                        <button class="btn btn-warning" onclick="creaNuovoArticolo()">✅ Crea Articolo</button>
                         <button class="btn btn-outline" onclick="resetFormNuovo()">🔄 Reset</button>
+                        <button class="btn btn-primary" onclick="creaNuovoArticolo()">➕ Crea Articolo</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- =================== DDT =================== -->
-        <div class="section" id="sec-ddt">
-            <div class="gap-row">
-                <!-- CREA DDT -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2>
-                            <span class="icon" style="background:var(--primary-light);color:var(--primary);">📄</span>
-                            Crea Documento di Trasporto
-                        </h2>
-                    </div>
-                    <div class="card-body">
-                        <div id="alertDDT"></div>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Numero DDT</label>
-                                <input type="text" class="form-control font-mono" id="ddtNumero" readonly style="background:var(--gray-100);">
-                            </div>
-                            <div class="form-group">
-                                <label>Data</label>
-                                <input type="date" class="form-control" id="ddtData">
-                            </div>
-                            <div class="form-group">
-                                <label>Destinatario <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="ddtDestinatario" placeholder="Ragione sociale destinatario">
-                            </div>
-                            <div class="form-group">
-                                <label>Indirizzo Destinatario</label>
-                                <input type="text" class="form-control" id="ddtIndirizzo" placeholder="Via, CAP, Città">
-                            </div>
-                            <div class="form-group">
-                                <label>Causale Trasporto</label>
-                                <select class="form-control" id="ddtCausale">
-                                    <option value="Vendita">Vendita</option>
-                                    <option value="Conto visione">Conto visione</option>
-                                    <option value="Conto lavorazione">Conto lavorazione</option>
-                                    <option value="Reso">Reso</option>
-                                    <option value="Omaggio">Omaggio</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Trasporto a cura</label>
-                                <select class="form-control" id="ddtTrasporto">
-                                    <option value="Mittente">Mittente</option>
-                                    <option value="Destinatario">Destinatario</option>
-                                    <option value="Vettore">Vettore</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <h3 style="font-size:14px;font-weight:700;margin:24px 0 12px;">Articoli del DDT</h3>
-                        <div class="form-grid" style="grid-template-columns:2fr 1fr auto; align-items:end;">
-                            <div class="form-group">
-                                <label>Articolo</label>
-                                <select class="form-control" id="ddtArticoloSel">
-                                    <option value="">-- Seleziona --</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Quantità</label>
-                                <input type="number" class="form-control" id="ddtArticoloQta" min="1" value="1">
-                            </div>
-                            <div class="form-group">
-                                <label>&nbsp;</label>
-                                <button class="btn btn-primary" onclick="aggiungiRigaDDT()">＋ Aggiungi</button>
-                            </div>
-                        </div>
-                        <div class="table-wrapper mt-16">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Codice</th>
-                                        <th>Descrizione</th>
-                                        <th class="text-right">Qtà</th>
-                                        <th>U.M.</th>
-                                        <th class="text-center">Rimuovi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ddtRigheBody"></tbody>
-                            </table>
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-primary" onclick="emitDDT()">📄 Emetti DDT</button>
-                            <button class="btn btn-outline" onclick="resetFormDDT()">🔄 Reset</button>
-                        </div>
-                    </div>
+        <!-- SEZIONE DDT -->
+        <section id="sec-ddt" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>🚚 Documenti di Trasporto</h2>
+                    <p>Emetti e gestisci DDT per la spedizione della merce</p>
                 </div>
-
-                <!-- LISTA DDT -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2>
-                            <span class="icon" style="background:var(--primary-light);color:var(--primary);">📋</span>
-                            DDT Emessi
-                        </h2>
+            </div>
+            <div id="alertDDT"></div>
+            <div class="card">
+                <div class="card-header"><h3>Nuovo DDT</h3></div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Numero DDT</label>
+                            <input type="text" id="ddtNumero" class="form-control" readonly style="background:var(--gray-100);">
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" id="ddtData" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Destinatario *</label>
+                            <input type="text" id="ddtDestinatario" class="form-control" placeholder="Ragione sociale">
+                        </div>
+                        <div class="form-group">
+                            <label>Indirizzo Destinatario</label>
+                            <input type="text" id="ddtIndirizzo" class="form-control" placeholder="Indirizzo completo">
+                        </div>
+                        <div class="form-group">
+                            <label>Causale Trasporto</label>
+                            <select id="ddtCausale" class="form-control">
+                                <option value="Vendita">Vendita</option>
+                                <option value="Conto lavorazione">Conto lavorazione</option>
+                                <option value="Conto visione">Conto visione</option>
+                                <option value="Reso">Reso</option>
+                                <option value="Omaggio">Omaggio</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Trasporto a cura</label>
+                            <select id="ddtTrasporto" class="form-control">
+                                <option value="Mittente">Mittente</option>
+                                <option value="Destinatario">Destinatario</option>
+                                <option value="Vettore">Vettore</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="ddt-list-grid" id="ddtListContainer">
+
+                    <h4 style="margin:20px 0 12px;font-size:14px;color:var(--gray-700);">Aggiungi Articoli al DDT</h4>
+                    <div class="form-grid" style="grid-template-columns:2fr 1fr auto;align-items:end;">
+                        <div class="form-group">
+                            <label>Articolo</label>
+                            <select id="ddtArticoloSel" class="form-control"></select>
                         </div>
-                        <div class="empty-state" id="emptyDDT" style="display:none;">
-                            <div class="empty-icon">📄</div>
-                            <h3>Nessun DDT emesso</h3>
-                            <p>Crea il primo documento di trasporto</p>
+                        <div class="form-group">
+                            <label>Quantità</label>
+                            <input type="number" id="ddtArticoloQta" class="form-control" value="1" min="1">
                         </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="aggiungiRigaDDT()">+ Aggiungi</button>
+                        </div>
+                    </div>
+                    <div class="table-container" style="margin-top:12px;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Codice</th><th>Descrizione</th><th>U.M.</th>
+                                    <th class="text-right">Qtà</th><th class="text-center">Rimuovi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ddtRigheBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>Note DDT</label>
+                        <textarea id="ddtNote" class="form-control" rows="2" placeholder="Note aggiuntive..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-outline" onclick="resetFormDDT()">🔄 Reset</button>
+                        <button class="btn btn-success" onclick="emettiDDT()">🚚 Emetti DDT</button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- =================== ORDINI =================== -->
-        <div class="section" id="sec-ordini">
-            <div class="gap-row">
-                <!-- CREA ORDINE -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2>
-                            <span class="icon" style="background:var(--success-light);color:var(--success);">🚚</span>
-                            Nuovo Ordine Fornitore
-                        </h2>
+            <div class="card" style="margin-top:24px;">
+                <div class="card-header"><h3>DDT Emessi</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>N° DDT</th><th>Data</th><th>Destinatario</th>
+                                    <th class="text-center">Articoli</th><th>Causale</th><th class="text-center">Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ddtListBody"></tbody>
+                        </table>
                     </div>
-                    <div class="card-body">
-                        <div id="alertOrdine"></div>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Numero Ordine</label>
-                                <input type="text" class="form-control font-mono" id="ordineNumero" readonly style="background:var(--gray-100);">
-                            </div>
-                            <div class="form-group">
-                                <label>Data Ordine</label>
-                                <input type="date" class="form-control" id="ordineData">
-                            </div>
-                            <div class="form-group">
-                                <label>Fornitore <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="ordineFornitore" placeholder="Ragione sociale fornitore">
-                            </div>
-                            <div class="form-group">
-                                <label>Consegna Prevista</label>
-                                <input type="date" class="form-control" id="ordineConsegna">
-                            </div>
-                            <div class="form-group form-span-full">
-                                <label>Note</label>
-                                <textarea class="form-control" id="ordineNote" placeholder="Note aggiuntive per l'ordine..."></textarea>
-                            </div>
-                        </div>
-
-                        <h3 style="font-size:14px;font-weight:700;margin:24px 0 12px;">Articoli dell'Ordine</h3>
-                        <div class="form-grid" style="grid-template-columns:2fr 1fr 1fr auto; align-items:end;">
-                            <div class="form-group">
-                                <label>Articolo</label>
-                                <select class="form-control" id="ordineArticoloSel">
-                                    <option value="">-- Seleziona --</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Quantità</label>
-                                <input type="number" class="form-control" id="ordineArticoloQta" min="1" value="1">
-                            </div>
-                            <div class="form-group">
-                                <label>Prezzo Unit. (€)</label>
-                                <input type="number" class="form-control" id="ordineArticoloPrezzo" min="0" step="0.01" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label>&nbsp;</label>
-                                <button class="btn btn-primary" onclick="aggiungiRigaOrdine()">＋ Aggiungi</button>
-                            </div>
-                        </div>
-                        <div class="table-wrapper mt-16">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Codice</th>
-                                        <th>Descrizione</th>
-                                        <th class="text-right">Qtà</th>
-                                        <th class="text-right">Prezzo Unit.</th>
-                                        <th class="text-right">Totale</th>
-                                        <th class="text-center">Rimuovi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ordineRigheBody"></tbody>
-                            </table>
-                        </div>
-                        <div style="text-align:right;margin-top:10px;font-size:16px;font-weight:700;" id="ordineTotale">
-                            Totale Ordine: € 0,00
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-success" onclick="emettiOrdine()">🚚 Emetti Ordine</button>
-                            <button class="btn btn-outline" onclick="resetFormOrdine()">🔄 Reset</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LISTA ORDINI -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2>
-                            <span class="icon" style="background:var(--success-light);color:var(--success);">📋</span>
-                            Ordini Emessi
-                        </h2>
-                    </div>
-                    <div class="card-body" style="padding:0;">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>N. Ordine</th>
-                                        <th>Data</th>
-                                        <th>Fornitore</th>
-                                        <th class="text-right">N. Articoli</th>
-                                        <th class="text-right">Totale</th>
-                                        <th class="text-center">Stato</th>
-                                        <th class="text-center">Azioni</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ordiniListBody"></tbody>
-                            </table>
-                        </div>
-                        <div class="empty-state" id="emptyOrdini" style="display:none;">
-                            <div class="empty-icon">🚚</div>
-                            <h3>Nessun ordine</h3>
-                            <p>Crea il primo ordine fornitore</p>
-                        </div>
+                    <div id="emptyDDT" class="empty-state">
+                        <div class="empty-icon">🚚</div>
+                        <p>Nessun DDT emesso</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SEZIONE ORDINI -->
+        <section id="sec-ordini" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>📑 Ordini Fornitore</h2>
+                    <p>Crea e gestisci ordini di acquisto ai fornitori</p>
+                </div>
+            </div>
+            <div id="alertOrdine"></div>
+            <div class="card">
+                <div class="card-header"><h3>Nuovo Ordine</h3></div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Numero Ordine</label>
+                            <input type="text" id="ordineNumero" class="form-control" readonly style="background:var(--gray-100);">
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" id="ordineData" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Fornitore *</label>
+                            <input type="text" id="ordineFornitore" class="form-control" placeholder="Ragione sociale fornitore">
+                        </div>
+                        <div class="form-group">
+                            <label>Consegna Prevista</label>
+                            <input type="date" id="ordineConsegna" class="form-control">
+                        </div>
+                    </div>
+
+                    <h4 style="margin:20px 0 12px;font-size:14px;color:var(--gray-700);">Aggiungi Articoli all'Ordine</h4>
+                    <div class="form-grid" style="grid-template-columns:2fr 1fr 1fr auto;align-items:end;">
+                        <div class="form-group">
+                            <label>Articolo</label>
+                            <select id="ordineArticoloSel" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantità</label>
+                            <input type="number" id="ordineArticoloQta" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Prezzo Unit. (€)</label>
+                            <input type="number" id="ordineArticoloPrezzo" class="form-control" value="0" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="aggiungiRigaOrdine()">+ Aggiungi</button>
+                        </div>
+                    </div>
+                    <div class="table-container" style="margin-top:12px;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Codice</th><th>Descrizione</th>
+                                    <th class="text-right">Qtà</th><th class="text-right">Prezzo</th>
+                                    <th class="text-right">Totale</th><th class="text-center">Rimuovi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordineRigheBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="ordineTotale" class="totale-box">Totale Ordine: <strong>€ 0,00</strong></div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>Note Ordine</label>
+                        <textarea id="ordineNote" class="form-control" rows="2" placeholder="Note..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-outline" onclick="resetFormOrdine()">🔄 Reset</button>
+                        <button class="btn btn-success" onclick="emettiOrdine()">📑 Emetti Ordine</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:24px;">
+                <div class="card-header"><h3>Ordini Emessi</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>N° Ordine</th><th>Data</th><th>Fornitore</th>
+                                    <th class="text-right">Articoli</th><th class="text-right">Totale</th>
+                                    <th class="text-center">Stato</th><th class="text-center">Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordiniListBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="emptyOrdini" class="empty-state">
+                        <div class="empty-icon">📑</div>
+                        <p>Nessun ordine emesso</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <!-- MODAL DDT PREVIEW -->
-    <div class="modal-overlay" id="modalDDT">
-        <div class="modal" style="max-width:860px;">
-            <div class="modal-header">
-                <h3>📄 Anteprima DDT</h3>
-                <button class="modal-close" onclick="chiudiModalDDT()">✕</button>
-            </div>
-            <div class="modal-body" id="modalDDTBody"></div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="chiudiModalDDT()">Chiudi</button>
-                <button class="btn btn-primary" onclick="stampaDDT()">🖨️ Stampa</button>
-            </div>
-        </div>
-    </div>
+    <!-- ===== MODALI ===== -->
 
-    <!-- MODAL ORDINE PREVIEW -->
-    <div class="modal-overlay" id="modalOrdine">
-        <div class="modal" style="max-width:700px;">
-            <div class="modal-header">
-                <h3>🚚 Dettaglio Ordine</h3>
-                <button class="modal-close" onclick="chiudiModalOrdine()">✕</button>
-            </div>
-            <div class="modal-body" id="modalOrdineBody"></div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="chiudiModalOrdine()">Chiudi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL ELIMINA ARTICOLO -->
+    <!-- Modal Elimina -->
     <div class="modal-overlay" id="modalElimina">
-        <div class="modal" style="max-width:420px;">
-            <div class="modal-header">
-                <h3>⚠️ Conferma Eliminazione</h3>
+        <div class="modal" style="max-width:440px;">
+            <div class="modal-header" style="background:var(--danger-light);">
+                <h3 style="color:var(--danger);">⚠️ Conferma Eliminazione</h3>
                 <button class="modal-close" onclick="chiudiModalElimina()">✕</button>
             </div>
-            <div class="modal-body">
-                <p style="font-size:14px;">Sei sicuro di voler eliminare l'articolo <strong id="eliminaArticoloNome"></strong>?</p>
+            <div class="modal-body" style="text-align:center;padding:30px;">
+                <p>Vuoi eliminare l'articolo<br><strong id="eliminaArticoloNome"></strong>?</p>
                 <p style="font-size:13px;color:var(--gray-500);margin-top:8px;">Questa azione è irreversibile.</p>
             </div>
             <div class="modal-footer">
@@ -1544,43 +514,35 @@
         </div>
     </div>
 
+    <!-- Modal Visualizza DDT -->
+    <div class="modal-overlay" id="modalDDT">
+        <div class="modal" style="max-width:750px;">
+            <div class="modal-header">
+                <h3>📄 Anteprima DDT</h3>
+                <button class="modal-close" onclick="chiudiModalDDT()">✕</button>
+            </div>
+            <div class="modal-body" id="ddtPrintArea"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="chiudiModalDDT()">Chiudi</button>
+                <button class="btn btn-primary" onclick="stampaDDT()">🖨️ Stampa</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- =================== JAVASCRIPT =================== -->
-    <script>
-    (function() {
-        'use strict';
+    <!-- Modal Visualizza Ordine -->
+    <div class="modal-overlay" id="modalOrdine">
+        <div class="modal" style="max-width:650px;">
+            <div class="modal-header">
+                <h3>📑 Dettaglio Ordine</h3>
+                <button class="modal-close" onclick="chiudiModalOrdine()">✕</button>
+            </div>
+            <div class="modal-body" id="modalOrdineBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="chiudiModalOrdine()">Chiudi</button>
+            </div>
+        </div>
+    </div>
 
-        // ===== DATA STORE =====
-        const STORAGE_KEY = 'magazzino_data_v2';
-
-        function getStore() {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (raw) {
-                try { return JSON.parse(raw); } catch(e) {}
-            }
-            return {
-                articoli: [],
-                movCarico: [],
-                movScarico: [],
-                ddtList: [],
-                ordiniList: [],
-                ddtCounter: 1,
-                ordineCounter: 1
-            };
-        }
-
-        function saveStore(store) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-        }
-
-        // Pre-populate sample data if empty
-        function initSampleData() {
-            const store = getStore();
-            if (store.articoli.length === 0) {
-                store.articoli = [
-                    { codice:'ART-001', descrizione:'Monitor LED 24"', categoria:'Elettronica', um:'PZ', giacenza:25, scortaMin:5, prezzo:189.90, posizione:'Scaffale A-1', note:'' },
-                    { codice:'ART-002', descrizione:'Tastiera Meccanica USB', categoria:'Elettronica', um:'PZ', giacenza:50, scortaMin:10, prezzo:49.90, posizione:'Scaffale A-2', note:'' },
-                    { codice:'ART-003', descrizione:'Mouse Wireless', categoria:'Elettronica', um:'PZ', giacenza:3, scortaMin:10, prezzo:29.90, posizione:'Scaffale A-3', note:'Scorta critica' },
-                    { codice:'ART-004', descrizione:'Cavo HDMI 2m', categoria:'Elettronica', um:'PZ', giacenza:120, scortaMin:20, prezzo:8.50, posizione:'Scaffale B-1', note:'' },
-                    { codice:'ART-005', descrizione:'Risma Carta A4 500 fogli', categoria:'Cancelleria', um:'CF', giacenza:8, scortaMin:10, prezzo:4.90, posizione:'Scaffale C-1', note:'' },
-                    { codice:'ART-006', descrizione:'Viti M6x20 (conf. 100pz)', categoria:'Ferramenta', um:'CF', giacenza:45, scortaMin:10, prezzo:6.50, posizione:'
+    <script src="script.js"></script>
+</body>
+</html>
