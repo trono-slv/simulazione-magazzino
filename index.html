@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulazione Magazzino - Corso Didattico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🛒 SIMULAZIONE MAGAZZINO</h1>
+        <div class="stats">
+            <span id="totArticoli">Articoli: 0</span>
+            <span id="totGiacenza">Giacenza Tot: 0</span>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="inventario">📋 Inventario</button>
+        <button class="tab-btn" data-tab="carico">➕ Carico</button>
+        <button class="tab-btn" data-tab="scarico">➖ Scarico</button>
+        <button class="tab-btn" data-tab="nuovo">✨ Nuovo Articolo</button>
+        <button class="tab-btn" data-tab="ddt">📄 DDT</button>
+        <button class="tab-btn" data-tab="ordini">🚚 Ordini</button>
+    </nav>
+
+    <main>
+        <!-- TAB INVENTARIO -->
+        <div id="inventario" class="tab-content active">
+            <input type="text" id="cerca" placeholder="🔍 Cerca articolo...">
+            <table id="tabellaInventario">
+                <thead>
+                    <tr><th>Codice</th><th>Descrizione</th><th>Giacenza</th><th>Prezzo</th><th>Azioni</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- TAB CARICO -->
+        <div id="carico" class="tab-content">
+            <h3>Carico Merci</h3>
+            <select id="selectCarico"><option value="">Seleziona articolo</option></select>
+            <input type="number" id="qtaCarico" placeholder="Quantità" min="1">
+            <button onclick="caricoMerce()">✅ Carica</button>
+            <div id="logCarico"></div>
+        </div>
+
+        <!-- ALTRE TAB (genera con prompt IA) -->
+        <div id="scarico" class="tab-content">...</div>
+        <div id="nuovo" class="tab-content">...</div>
+        <div id="ddt" class="tab-content">...</div>
+        <div id="ordini" class="tab-content">...</div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
