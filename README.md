@@ -1,0 +1,2 @@
+# simulazione-magazzino
+simulazione magazzino
